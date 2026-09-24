@@ -55,6 +55,13 @@ chrome.
 clashes with KitoNavigation's `KitoRoute`. Nothing in this package was renamed; update KitoMaps
 alongside it and replace `KitoRoute` with `KitoMapRoute` wherever your own code spells it out.
 
+## Right-to-left
+
+The map itself never mirrors, while the SwiftUI cards and controls around it do. `fitPadding` is
+leading/trailing aware: in a right-to-left layout its leading inset is applied on the map's right
+edge, so pins stay clear of a side panel on the leading side. The attribution link
+icon is `arrow.up.forward.square`.
+
 ## Installation
 
 ```swift
