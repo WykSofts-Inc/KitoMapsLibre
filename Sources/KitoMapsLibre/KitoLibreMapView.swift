@@ -110,7 +110,7 @@ public struct KitoLibreAttribution: View {
     public var body: some View {
         Menu {
             ForEach(style.attributionLinks, id: \.url) { link in
-                Button(link.title, systemImage: "arrow.up.right.square") { openURL(link.url) }
+                Button(link.title, systemImage: "arrow.up.forward.square") { openURL(link.url) }
             }
         } label: {
             Text(style.attribution)
@@ -148,10 +148,12 @@ struct KitoLibreMapRepresentable: UIViewRepresentable {
     }
 
     func makeUIView(context: Context) -> KitoLibreContainerView {
-        context.coordinator.container
+        context.coordinator.layoutDirection = context.environment.layoutDirection
+        return context.coordinator.container
     }
 
     func updateUIView(_ uiView: KitoLibreContainerView, context: Context) {
+        context.coordinator.layoutDirection = context.environment.layoutDirection
         context.coordinator.update(self)
     }
 }
@@ -213,6 +215,8 @@ final class KitoLibreAnnotationView: MLNAnnotationView {
 @MainActor
 final class KitoLibreMapCoordinator: NSObject {
     private(set) var parent: KitoLibreMapRepresentable
+    /// Maps `fitPadding`'s leading/trailing onto the map's physical left/right.
+    var layoutDirection: LayoutDirection = .leftToRight
     let container: KitoLibreContainerView
     private var mapView: MLNMapView { container.mapView }
 
@@ -320,7 +324,9 @@ final class KitoLibreMapCoordinator: NSObject {
             ne.latitude = max(ne.latitude, coordinate.latitude); ne.longitude = max(ne.longitude, coordinate.longitude)
         }
         let padding = parent.options.fitPadding
-        let insets = UIEdgeInsets(top: padding.top, left: padding.leading, bottom: padding.bottom, right: padding.trailing)
+        let isRTL = layoutDirection == .rightToLeft
+        let insets = UIEdgeInsets(top: padding.top, left: isRTL ? padding.trailing : padding.leading,
+                                  bottom: padding.bottom, right: isRTL ? padding.leading : padding.trailing)
         let camera = mapView.cameraThatFitsCoordinateBounds(MLNCoordinateBoundsMake(sw, ne), edgePadding: insets)
         let fitted = MLNZoomLevelForAltitude(camera.altitude, camera.pitch, camera.centerCoordinate.latitude, mapView.bounds.size)
         let zoom = min(fitted, maximumZoom - 1)
