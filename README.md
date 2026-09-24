@@ -47,10 +47,16 @@ requires visible credit. The map shows a small label — "© OpenFreeMap · © O
 sources. Keep it visible. `KitoLibreAttribution(style:)` is the same label if you build your own
 chrome.
 
+## Migrating from 0.1
+
+0.2.0 needs KitoMaps 0.2.0, which renamed `KitoRoute` to `KitoMapRoute` so KitoMaps no longer
+clashes with KitoNavigation's `KitoRoute`. Nothing in this package was renamed; update KitoMaps
+alongside it and replace `KitoRoute` with `KitoMapRoute` wherever your own code spells it out.
+
 ## Installation
 
 ```swift
-.package(url: "https://github.com/WykSofts-Inc/KitoMapsLibre.git", from: "0.1.0")
+.package(url: "https://github.com/WykSofts-Inc/KitoMapsLibre.git", from: "0.2.0")
 ```
 
 iOS 17+. Brings in [KitoMaps](https://github.com/WykSofts-Inc/KitoMaps) and MapLibre's
