@@ -1,5 +1,7 @@
 # KitoMapsLibre
 
+**[Documentation](https://wyksofts-inc.github.io/KitoMapsLibre/documentation/kitomapslibre/)**
+
 [KitoMaps](https://github.com/WykSofts-Inc/KitoMaps) on [MapLibre Native](https://maplibre.org): the
 same pins, clusters, cards, routes and controls as `KitoMapView`, on free OpenStreetMap maps. No
 account, no API key, no billing. Part of the [Kito](https://github.com/WykSofts-Inc/KitoDevKit)
